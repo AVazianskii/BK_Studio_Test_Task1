@@ -8,123 +8,123 @@ namespace _1
 {
     public class PolishProcess
     {
-        private Stack<char> _operations;
-        private Stack<int> _polishMathResult;
+        private Stack<string> _operations;
+        private Stack<double> _polishMathResult;
         private string reversedText;
-        private List<char> CharList;
+        private List<string> CharList;
+        private string [] text;
         
 
 
-        public string TransformToPolish(ref string text)
+        public string TransformToPolish(ref string input_text)
         {
             reversedText = "";
             try
             {
-                foreach (char letter in text.ToCharArray())
+                text = input_text.Split(' ');
+                foreach (string letter in text)
                 {
-                    if (letter != ' ')
+                    if (Double.TryParse(letter.ToString(), out double result))
                     {
-                        if (Int32.TryParse(letter.ToString(), out int result))
+                        CharList.Add(letter);
+                    }
+                    else
+                    {
+                        if (letter == "*" || letter == "/")
                         {
-                            CharList.Add(letter);
-                        }
-                        else
-                        {
-                            if (letter == '*' || letter == '/')
+                            if (_operations.Count > 0)
                             {
-                                if (_operations.Count > 0)
-                                {
-                                    if (_operations.Peek() == '^' || _operations.Peek() == '\u221A')
-                                    {
-                                        while (_operations.Count > 0)
-                                        {
-                                            if (_operations.Peek() != '+' && _operations.Peek() != '-' && _operations.Peek() != '(')
-                                            {
-                                                CharList.Add(_operations.Pop());
-                                            }
-                                            else { break; }
-                                        }
-                                    }
-                                    else if (_operations.Peek() == '*' || _operations.Peek() == '/')
-                                    {
-                                        while (_operations.Count > 0)
-                                        {
-                                            if (_operations.Peek() != '+' && _operations.Peek() != '-' && _operations.Peek() != '(')
-                                            {
-                                                CharList.Add(_operations.Pop());
-                                            }
-                                            else { break; }
-                                        }
-                                    }
-                                }
-                                _operations.Push(letter);
-                            }
-                            else if (letter == '^' || letter == '\u221A')
-                            {
-                                if (_operations.Count > 0)
-                                {
-                                    if (_operations.Peek() == '^' || _operations.Peek() == '\u221A')
-                                    {
-                                        while (_operations.Count > 0)
-                                        {
-                                            if (_operations.Peek() != '+' && _operations.Peek() != '-' && _operations.Peek() != '(' )
-                                            {
-                                                CharList.Add(_operations.Pop());
-                                            }
-                                            else { break; }
-                                        }
-                                    }
-                                }
-                                _operations.Push(letter);
-                            }
-                            else if (letter == '+' || letter == '-')
-                            {
-                                if (_operations.Count > 0)
-                                {
-                                    if ((_operations.Peek() == '^' || _operations.Peek() == '\u221A') ||
-                                        (_operations.Peek() == '*' || _operations.Peek() == '/') ||
-                                        (_operations.Peek() == '+' || _operations.Peek() == '-'))
-                                    {
-                                        while (_operations.Count > 0)
-                                        {
-                                            if (_operations.Peek() != '(')
-                                            {
-                                                CharList.Add(_operations.Pop());
-                                            }
-                                            else { break; }
-                                        }
-                                    }
-                                }
-                                _operations.Push(letter);
-                            }
-                            else if (letter == ')')
-                            {
-                                if (_operations.Contains('('))
+                                if (_operations.Peek() == "^" || _operations.Peek() == "\u221A" || _operations.Peek() == "%")
                                 {
                                     while (_operations.Count > 0)
                                     {
-                                        if (_operations.Peek() != '(')
+                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
                                         {
                                             CharList.Add(_operations.Pop());
                                         }
                                         else { break; }
                                     }
-                                    if (_operations.Peek() == '(')
+                                }
+                                else if (_operations.Peek() == "*" || _operations.Peek() == "/")
+                                {
+                                    while (_operations.Count > 0)
                                     {
-                                        _operations.Pop();
+                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
+                                        {
+                                            CharList.Add(_operations.Pop());
+                                        }
+                                        else { break; }
                                     }
                                 }
-                                else
+                            }
+                            _operations.Push(letter);
+                        }
+                        else if (letter == "^" || letter == "\u221A" || letter == "%")
+                        {
+                            if (_operations.Count > 0)
+                            {
+                                if (_operations.Peek() == "^" || _operations.Peek() == "\u221A" || letter == "%")
                                 {
-                                    throw new Exception("Несогласованное количество скобок в выражении!");
+                                    while (_operations.Count > 0)
+                                    {
+                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
+                                        {
+                                            CharList.Add(_operations.Pop());
+                                        }
+                                        else { break; }
+                                    }
+                                }
+                            }
+                            _operations.Push(letter);
+                        }
+                        else if (letter == "+" || letter == "-")
+                        {
+                            if (_operations.Count > 0)
+                            {
+                                if ((_operations.Peek() == "^" || _operations.Peek() == "\u221A" || letter == "%") ||
+                                    (_operations.Peek() == "*" || _operations.Peek() == "/") ||
+                                    (_operations.Peek() == "+" || _operations.Peek() == "-"))
+                                {
+                                    while (_operations.Count > 0)
+                                    {
+                                        if (_operations.Peek() != "(")
+                                        {
+                                            CharList.Add(_operations.Pop());
+                                        }
+                                        else { break; }
+                                    }
+                                }
+                            }
+                            _operations.Push(letter);
+                        }
+                        else if (letter == ")")
+                        {
+                            if (_operations.Contains("("))
+                            {
+                                while (_operations.Count > 0)
+                                {
+                                    if (_operations.Peek() != "(")
+                                    {
+                                        CharList.Add(_operations.Pop());
+                                    }
+                                    else { break; }
+                                }
+                                if (_operations.Peek() == "(")
+                                {
+                                    _operations.Pop();
                                 }
                             }
                             else
                             {
-                                _operations.Push(letter);
+                                throw new Exception("Несогласованное количество скобок в выражении!");
                             }
                         }
+                        else
+                        {
+                            _operations.Push(letter);
+                        }
                     }
+                    
                 }
                 // Переносим все символы операций из стэка в коллекцию
                 while (_operations.Count > 0)
@@ -132,9 +132,17 @@ namespace _1
                     CharList.Add(_operations.Pop());
                 }
                 // преобразуем полученную коллекцию символов с строковую переменную для отображения            
-                foreach (char element in CharList)
+                foreach (string element in CharList)
                 {
-                    reversedText = reversedText + element;
+                    if (CharList.IndexOf(element) == CharList.Capacity - 1)
+                    {
+                        reversedText = reversedText + element;
+                    }
+                    else 
+                    {
+                        reversedText = reversedText + element + " ";
+                    }
+                    
                 }
                 _operations.Clear();
                 _operations.TrimExcess();
@@ -155,46 +163,51 @@ namespace _1
             }
             return reversedText;
         }
-
-
-
         public string CalculatePolish(ref string ReversedPolishText)
         {
-            foreach (char letter in ReversedPolishText.ToCharArray())
+            text = ReversedPolishText.Split(' ');
+            foreach (string letter in text)
             {
-                if (Int32.TryParse(letter.ToString(), out int result))
+                if (letter != "")
                 {
-                   _polishMathResult.Push(result);
-                }
-                else
-                {
-                    int num_1 = _polishMathResult.Pop();
-                    if (letter == '\u221A')
+                    if (Double.TryParse(letter.ToString(), out double result))
                     {
-                        _polishMathResult.Push(Convert.ToInt32(Math.Sqrt(num_1)));
+                        _polishMathResult.Push(result);
                     }
                     else
                     {
-                        int num_2 = _polishMathResult.Pop();
-                        if (letter == '+')
+                        double num_1 = _polishMathResult.Pop();
+                        if (letter == "\u221A")
                         {
-                            _polishMathResult.Push(num_1 + num_2);
+                            _polishMathResult.Push(Math.Sqrt(num_1));
                         }
-                        else if (letter == '-')
+                        else if (letter == "%")
                         {
-                            _polishMathResult.Push(num_2 - num_1);
+                            _polishMathResult.Push(num_1 * 0.01);
                         }
-                        else if (letter == '*')
+                        else
                         {
-                            _polishMathResult.Push(num_1 * num_2);
-                        }
-                        else if (letter == '/')
-                        {
-                            _polishMathResult.Push(num_2 / num_1);
-                        }
-                        else if (letter == '^')
-                        {
-                            _polishMathResult.Push(Convert.ToInt32(Math.Pow(num_2, num_1)));
+                            double num_2 = _polishMathResult.Pop();
+                            if (letter == "+")
+                            {
+                                _polishMathResult.Push(num_1 + num_2);
+                            }
+                            else if (letter == "-")
+                            {
+                                _polishMathResult.Push(num_2 - num_1);
+                            }
+                            else if (letter == "*")
+                            {
+                                _polishMathResult.Push(num_1 * num_2);
+                            }
+                            else if (letter == "/")
+                            {
+                                _polishMathResult.Push(num_2 / num_1);
+                            }
+                            else if (letter == "^")
+                            {
+                                _polishMathResult.Push(Math.Pow(num_2, num_1));
+                            }
                         }
                     }
                 }
@@ -209,32 +222,12 @@ namespace _1
 
         public PolishProcess()
         {
+            //text = "";
             reversedText = "";
-            _operations = new Stack<char>();
-            _polishMathResult = new Stack<int>();
-            CharList = new List<char>();
-            
+            _operations = new Stack<string>();
+            _polishMathResult = new Stack<double>();
+            CharList = new List<string>();
+                
         }
-
-
-
-        /*
-        private int Add(int letter_1, int letter_2)
-        {
-            return Convert.ToChar(Convert.ToInt32(letter_1) + Convert.ToInt32(letter_2));
-        }
-        private int Substract(int letter_1, int letter_2)
-        {
-            return Convert.ToChar(Convert.ToInt32(letter_1) - Convert.ToInt32(letter_2));
-        }
-        private int Multiply(int letter_1, int letter_2)
-        {
-            return Convert.ToChar(Convert.ToInt32(letter_1) * Convert.ToInt32(letter_2));
-        }
-        private int Divide(int letter_1, int letter_2)
-        {
-            return Convert.ToChar(Convert.ToInt32(letter_1) / Convert.ToInt32(letter_2));
-        }
-        */
     }
 }

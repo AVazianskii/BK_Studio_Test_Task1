@@ -37,6 +37,8 @@ namespace _1
         public Command Write_RBracket { get; private set; }
         public Command Write_degree { get; private set; }
         public Command Write_square { get; private set; }
+        public Command Write_percent { get; private set; }
+        public Command Write_point { get; private set; }
         public string InputText
         {
             get { return inputText; }
@@ -82,10 +84,12 @@ namespace _1
             Write_7 = new Command(o => Write_number(7));
             Write_8 = new Command(o => Write_number(8));
             Write_9 = new Command(o => Write_number(9));
-            Write_LBracket = new Command(o => Write_symbol("("));
-            Write_RBracket = new Command(o => Write_symbol(")"));
+            Write_LBracket = new Command(o => Write_symbol("( "));
+            Write_RBracket = new Command(o => Write_symbol(" )"));
             Write_degree = new Command(o => Write_symbol("^"));
-            Write_square = new Command(o => Write_symbol(Encoding.Unicode.GetChars(square_sign)));
+            Write_square = new Command(o => Write_symbol("\u221A")); 
+            Write_percent = new Command(o => Write_symbol("%"));
+            Write_point = new Command(o => Write_symbol(","));
 
             polishProcess = new PolishProcess();
         }
@@ -115,13 +119,6 @@ namespace _1
         private void Write_symbol(string symbol)
         {
             InputText = InputText + symbol;
-        }
-        private void Write_symbol(char []symbols)
-        {
-            foreach (char element in symbols)
-            {
-                InputText = InputText + String.Format("\u221A", InputText);
-            }
         }
         private void _ClearOne()
         {

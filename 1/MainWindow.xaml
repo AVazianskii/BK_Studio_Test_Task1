@@ -248,6 +248,22 @@
                     <TextBlock Text="&#8730;"/>
                 </Button.Content>
             </Button>
+            <Button Grid.Row="2"
+                    Grid.Column="4"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_percent}">
+                <Button.Content>
+                    <TextBlock Text="%"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="4"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_point}">
+                <Button.Content>
+                    <TextBlock Text=","/>
+                </Button.Content>
+            </Button>
             <Button Grid.Row="3"
                     Grid.Column="5"
                     Width="55"
