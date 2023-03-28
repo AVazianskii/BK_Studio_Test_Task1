@@ -1,0 +1,287 @@
+﻿<Window x:Class="_1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="CalcButton" TargetType="{x:Type Button}">
+            <Style.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextBlock.FontSize" 
+                            Value="15"/>
+                </Style>
+            </Style.Resources>
+            <Setter Property="Height"
+                    Value="25"/>
+            <Setter Property="Width"
+                    Value="27"/>
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center"/>
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="1"
+                   Grid.Column="1"
+                   Height="20"
+                   Text="Математическое выражение"
+                   TextAlignment="Center"/>
+        <TextBlock Grid.Row="2"
+                   Grid.Column="1"
+                   Height="30"
+                   TextAlignment="Center"
+                   FontSize="20"
+                   Text="{Binding InputText, 
+                                  UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="3"
+                   Grid.Column="1"
+                   Height="20"
+                   Text="Выражение в обратной польской записи"
+                   TextAlignment="Center"/>
+        <TextBlock Grid.Row="4"
+                   Grid.Column="1"
+                   Height="30"
+                   TextAlignment="Center"
+                   FontSize="20"
+                   Text="{Binding ReversePolishText, 
+                                  UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.Row="5"
+                   Grid.Column="1"
+                   Height="20"
+                   Text="Результат"
+                   TextAlignment="Center"/>
+        <TextBlock Grid.Row="6"
+                   Grid.Column="1"
+                   Height="30"
+                   TextAlignment="Center"
+                   FontSize="20"
+                   Text="{Binding Result, 
+                                  UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Row="7"
+              Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0"
+                    Grid.Column="3"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Addition}">
+                <Button.Content>
+                    <TextBlock Text="+"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="3"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Substraction}">
+                <Button.Content>
+                    <TextBlock Text="-"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="2"
+                    Grid.Column="3"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Multiplication}">
+                <Button.Content>
+                    <TextBlock Text="*"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="3"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Division}">
+                <Button.Content>
+                    <TextBlock Text="/"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_1}">
+                <Button.Content>
+                    <TextBlock Text="1"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_2}">
+                <Button.Content>
+                    <TextBlock Text="2"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0"
+                    Grid.Column="2"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_3}">
+                <Button.Content>
+                    <TextBlock Text="3"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_4}">
+                <Button.Content>
+                    <TextBlock Text="4"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_5}">
+                <Button.Content>
+                    <TextBlock Text="5"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_6}">
+                <Button.Content>
+                    <TextBlock Text="6"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_7}">
+                <Button.Content>
+                    <TextBlock Text="7"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="2"
+                    Grid.Column="1"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_8}">
+                <Button.Content>
+                    <TextBlock Text="8"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="2"
+                    Grid.Column="2"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_9}">
+                <Button.Content>
+                    <TextBlock Text="9"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_0}">
+                <Button.Content>
+                    <TextBlock Text="0"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="1"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_0}">
+                <Button.Content>
+                    <TextBlock Text="0"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_LBracket}">
+                <Button.Content>
+                    <TextBlock Text="("/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="2"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_RBracket}">
+                <Button.Content>
+                    <TextBlock Text=")"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0"
+                    Grid.Column="4"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_degree}">
+                <Button.Content>
+                    <TextBlock Text="^"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="4"
+                    Style="{StaticResource CalcButton}"
+                    Command="{Binding Write_square}">
+                <Button.Content>
+                    <TextBlock Text="&#8730;"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="3"
+                    Grid.Column="5"
+                    Width="55"
+                    Height="25"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding Calculate}"
+                    IsDefault="True">
+                <Button.Content>
+                    <TextBlock Text="="/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="0"
+                    Grid.Column="5"
+                    Width="55"
+                    Height="25"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding ClearOne}">
+                <Button.Content>
+                    <TextBlock Text="Стереть"/>
+                </Button.Content>
+            </Button>
+            <Button Grid.Row="1"
+                    Grid.Column="5"
+                    Width="55"
+                    Height="25"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding ClearAll}">
+                <Button.Content>
+                    <TextBlock Text="Очистить"/>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
