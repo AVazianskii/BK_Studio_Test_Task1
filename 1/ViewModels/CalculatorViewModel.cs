@@ -86,9 +86,9 @@ namespace _1
             Write_9 = new Command(o => Write_number(9));
             Write_LBracket = new Command(o => Write_symbol("( "));
             Write_RBracket = new Command(o => Write_symbol(" )"));
-            Write_degree = new Command(o => Write_symbol("^"));
-            Write_square = new Command(o => Write_symbol("\u221A")); 
-            Write_percent = new Command(o => Write_symbol("%"));
+            Write_degree = new Command(o => Write_symbol(" ^ "));
+            Write_square = new Command(o => Write_symbol(" " + "\u221A" + " ")); 
+            Write_percent = new Command(o => Write_symbol(" % "));
             Write_point = new Command(o => Write_symbol(","));
 
             polishProcess = new PolishProcess();

@@ -13,6 +13,22 @@ namespace _1
         private string reversedText;
         private List<string> CharList;
         private string [] text;
+
+        private OperandHandler operandHandler;
+        private PlusMinusHandler plusMinusHandler;
+        private MulDivHandler mulDivHandler;
+        private DegSqrProcHandler degSqrProcHandler;
+        private RightBracketHandler rightBracketHandler;
+        private OtherOperatorHandler otherOperatorHandler;
+
+        private CalcOperandHandler calcOperandHandler;
+        private CalcSqrHandler calcSqrHandler;
+        private CalcProcHandler calcProcHandler;
+        private CalcAddHandler calcAddHandler;
+        private CalcSubstractHandler calcSubstractHandler;
+        private CalcMultiplyHandler calcMultiplyHandler;
+        private CalcDivisionHandler calcDivisionHandler;
+        private CalcDegreeHandler CalcDegreeHandler;
         
 
 
@@ -24,109 +40,11 @@ namespace _1
                 text = input_text.Split(' ');
                 foreach (string letter in text)
                 {
-                    if (Double.TryParse(letter.ToString(), out double result))
-                    {
-                        CharList.Add(letter);
-                    }
-                    else
-                    {
-                        if (letter == "*" || letter == "/")
-                        {
-                            if (_operations.Count > 0)
-                            {
-                                if (_operations.Peek() == "^" || _operations.Peek() == "\u221A" || _operations.Peek() == "%")
-                                {
-                                    while (_operations.Count > 0)
-                                    {
-                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
-                                        {
-                                            CharList.Add(_operations.Pop());
-                                        }
-                                        else { break; }
-                                    }
-                                }
-                                else if (_operations.Peek() == "*" || _operations.Peek() == "/")
-                                {
-                                    while (_operations.Count > 0)
-                                    {
-                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
-                                        {
-                                            CharList.Add(_operations.Pop());
-                                        }
-                                        else { break; }
-                                    }
-                                }
-                            }
-                            _operations.Push(letter);
-                        }
-                        else if (letter == "^" || letter == "\u221A" || letter == "%")
-                        {
-                            if (_operations.Count > 0)
-                            {
-                                if (_operations.Peek() == "^" || _operations.Peek() == "\u221A" || letter == "%")
-                                {
-                                    while (_operations.Count > 0)
-                                    {
-                                        if (_operations.Peek() != "+" && _operations.Peek() != "-" && _operations.Peek() != "(")
-                                        {
-                                            CharList.Add(_operations.Pop());
-                                        }
-                                        else { break; }
-                                    }
-                                }
-                            }
-                            _operations.Push(letter);
-                        }
-                        else if (letter == "+" || letter == "-")
-                        {
-                            if (_operations.Count > 0)
-                            {
-                                if ((_operations.Peek() == "^" || _operations.Peek() == "\u221A" || letter == "%") ||
-                                    (_operations.Peek() == "*" || _operations.Peek() == "/") ||
-                                    (_operations.Peek() == "+" || _operations.Peek() == "-"))
-                                {
-                                    while (_operations.Count > 0)
-                                    {
-                                        if (_operations.Peek() != "(")
-                                        {
-                                            CharList.Add(_operations.Pop());
-                                        }
-                                        else { break; }
-                                    }
-                                }
-                            }
-                            _operations.Push(letter);
-                        }
-                        else if (letter == ")")
-                        {
-                            if (_operations.Contains("("))
-                            {
-                                while (_operations.Count > 0)
-                                {
-                                    if (_operations.Peek() != "(")
-                                    {
-                                        CharList.Add(_operations.Pop());
-                                    }
-                                    else { break; }
-                                }
-                                if (_operations.Peek() == "(")
-                                {
-                                    _operations.Pop();
-                                }
-                            }
-                            else
-                            {
-                                throw new Exception("Несогласованное количество скобок в выражении!");
-                            }
-                        }
-                        else
-                        {
-                            _operations.Push(letter);
-                        }
-                    }
-                    
+                    // анализируем каждый элемент изначального выражения в цепочке
+                    operandHandler.Handle(letter, _operations, CharList);
                 }
-                // Переносим все символы операций из стэка в коллекцию
+
+                // Переносим оставшиеся символы операций из стэка в коллекцию
                 while (_operations.Count > 0)
                 {
                     CharList.Add(_operations.Pop());
@@ -134,21 +52,13 @@ namespace _1
                 // преобразуем полученную коллекцию символов с строковую переменную для отображения            
                 foreach (string element in CharList)
                 {
-                    if (CharList.IndexOf(element) == CharList.Capacity - 1)
-                    {
-                        reversedText = reversedText + element;
-                    }
-                    else 
-                    {
-                        reversedText = reversedText + element + " ";
-                    }
-                    
+                    reversedText = reversedText + element + " ";
                 }
+
                 _operations.Clear();
                 _operations.TrimExcess();
                 CharList.Clear();
                 CharList.TrimExcess();
-                
             }
             catch (Exception ex)
             {
@@ -170,64 +80,58 @@ namespace _1
             {
                 if (letter != "")
                 {
-                    if (Double.TryParse(letter.ToString(), out double result))
-                    {
-                        _polishMathResult.Push(result);
-                    }
-                    else
-                    {
-                        double num_1 = _polishMathResult.Pop();
-                        if (letter == "\u221A")
-                        {
-                            _polishMathResult.Push(Math.Sqrt(num_1));
-                        }
-                        else if (letter == "%")
-                        {
-                            _polishMathResult.Push(num_1 * 0.01);
-                        }
-                        else
-                        {
-                            double num_2 = _polishMathResult.Pop();
-                            if (letter == "+")
-                            {
-                                _polishMathResult.Push(num_1 + num_2);
-                            }
-                            else if (letter == "-")
-                            {
-                                _polishMathResult.Push(num_2 - num_1);
-                            }
-                            else if (letter == "*")
-                            {
-                                _polishMathResult.Push(num_1 * num_2);
-                            }
-                            else if (letter == "/")
-                            {
-                                _polishMathResult.Push(num_2 / num_1);
-                            }
-                            else if (letter == "^")
-                            {
-                                _polishMathResult.Push(Math.Pow(num_2, num_1));
-                            }
-                        }
-                    }
+                    calcOperandHandler.Handle(letter, _polishMathResult);
                 }
             }
-            
+
             string FinalValue = _polishMathResult.Pop().ToString();
             _polishMathResult.Clear();
             _polishMathResult.TrimExcess();
-            return FinalValue; 
+            return FinalValue;
         }
 
 
         public PolishProcess()
         {
-            //text = "";
             reversedText = "";
             _operations = new Stack<string>();
             _polishMathResult = new Stack<double>();
             CharList = new List<string>();
-                
+
+
+            operandHandler = new OperandHandler();
+            plusMinusHandler = new PlusMinusHandler();
+            mulDivHandler = new MulDivHandler();
+            degSqrProcHandler = new DegSqrProcHandler();
+            rightBracketHandler = new RightBracketHandler();
+            otherOperatorHandler = new OtherOperatorHandler();
+
+            // Конфигурируем цепочку обработки для формирования обратной польской записи
+            operandHandler.
+                SetNext(plusMinusHandler).
+                SetNext(mulDivHandler).
+                SetNext(degSqrProcHandler).
+                SetNext(rightBracketHandler).
+                SetNext(otherOperatorHandler);
+
+            calcOperandHandler = new CalcOperandHandler();
+            calcSqrHandler = new CalcSqrHandler();
+            calcProcHandler = new CalcProcHandler();
+            calcAddHandler = new CalcAddHandler();
+            calcSubstractHandler = new CalcSubstractHandler();
+            calcMultiplyHandler = new CalcMultiplyHandler();
+            calcDivisionHandler = new CalcDivisionHandler();
+            CalcDegreeHandler = new CalcDegreeHandler();
+
+            // Конфигурируем цепочку обработки для вычисления по обратной польской записи
+            calcOperandHandler.
+                SetNext(calcSqrHandler).
+                SetNext(calcProcHandler).
+                SetNext(calcAddHandler).
+                SetNext(calcSubstractHandler).
+                SetNext(calcMultiplyHandler).
+                SetNext(calcDivisionHandler).
+                SetNext(CalcDegreeHandler);
         }
     }
 }

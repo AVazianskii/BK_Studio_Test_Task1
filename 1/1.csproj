@@ -29,7 +29,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,6 +55,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\CalculateHandlers\CalcDegreeHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcDivisionHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcMultiplyHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcOperandHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcAddHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcProcHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcSqrHandler.cs" />
+    <Compile Include="Models\CalculateHandlers\CalcSubstractHandler.cs" />
+    <Compile Include="Models\Handler infrastructure\BaseHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\DegSqrProcHandler.cs" />
+    <Compile Include="Models\Handler infrastructure\IHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\MulDivHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\OperandHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\OtherOperatorHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\PlusMinusHandler.cs" />
+    <Compile Include="Models\ReversePolishHandlers\RightBracketHandler.cs" />
     <Compile Include="Models\PolishProcess.cs" />
     <Compile Include="ViewModels\CalculatorViewModel.cs" />
     <Page Include="MainWindow.xaml">
